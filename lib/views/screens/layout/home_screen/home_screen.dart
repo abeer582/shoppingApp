@@ -68,7 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
           : currentIndex == 1
               ? SmallScreens(
                   title: 'No Services found',
-                  isOrder: false,
+                  isOrder: true,
                 )
               : SmallScreens(
                   title: 'No orders found',
