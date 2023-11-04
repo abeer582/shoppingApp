@@ -23,9 +23,11 @@ List<String>titles=['Constructions','Insurances','Legal','Buy & Sell','Accountin
      Container(
        padding: EdgeInsets.symmetric(horizontal:  MediaQuery.of(context).size.width*0.04,
            vertical: MediaQuery.of(context).size.height*0.03),
-       height: 304,
-       child: ListView.separated(itemBuilder: (context, index) => Container(
-         height: 60,
+       height: 380,
+       child: ListView.separated(
+           physics: const NeverScrollableScrollPhysics(),
+
+           itemBuilder: (context, index) => Container(
          decoration:  BoxDecoration(
              color: Colors.white,
              borderRadius: BorderRadius.circular(8),
@@ -44,7 +46,7 @@ List<String>titles=['Constructions','Insurances','Legal','Buy & Sell','Accountin
        ),
            separatorBuilder: (context, index) => SizedBoxForHeight(h: 0.02,),
            itemCount: 5),
-     )
+     ),
    ],);
 
 
