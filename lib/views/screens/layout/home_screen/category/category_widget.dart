@@ -43,6 +43,7 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                       height: 380,
                       child: ListView.separated(
                           itemBuilder: (context, index) => Container(
+                            height: 60,
                                 decoration: BoxDecoration(
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(8),
