@@ -6,9 +6,8 @@ import 'package:http/http.dart' as http;
 
 import '../../../../../../model/users_model.dart';
 
-
 class UsersCubit extends Cubit<UsersStates> {
-  UsersCubit() :super(InitialState());
+  UsersCubit() : super(InitialState());
 
   static UsersCubit get(context) => BlocProvider.of(context);
 
@@ -20,10 +19,7 @@ class UsersCubit extends Cubit<UsersStates> {
       var jsonResponse = json.decode(response.body);
       List<Users> users = [];
       for (var u in jsonResponse) {
-        Users user =
-        Users( username: u['username'],
-            id: u['id']
-        );
+        Users user = Users(username: u['username'], id: u['id']);
         users.add(user);
       }
       return users;
@@ -31,6 +27,4 @@ class UsersCubit extends Cubit<UsersStates> {
       throw Exception('Failed to load post');
     }
   }
-
 }
-
