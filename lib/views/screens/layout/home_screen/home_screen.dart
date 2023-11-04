@@ -13,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<String> titles = ['Categories', 'Services', 'Orders (0)'];
+  List<String> titles = ['Users', 'Services', 'Orders (0)'];
   int currentIndex = 0;
   @override
   void initState() {
