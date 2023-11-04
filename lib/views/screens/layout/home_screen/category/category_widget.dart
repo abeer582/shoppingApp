@@ -1,7 +1,6 @@
 // ignore_for_file: must_be_immutable
 
 
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/model/users_model.dart';
@@ -21,28 +20,29 @@ class CategoryWidget extends StatefulWidget {
 }
 
 class _CategoryWidgetState extends State<CategoryWidget> {
-  List<String>icons=['assets/icon/1.png','assets/icon/2.png','assets/icon/3.png','assets/icon/4.png',
-    'assets/icon/5.png'];
+ // List<String>icons=['assets/icon/1.png','assets/icon/2.png','assets/icon/3.png','assets/icon/4.png',
+   // 'assets/icon/5.png'];
 
-  List<String>titles=['Constructions','Insurances','Legal','Buy & Sell','Accounting Services'];
-  List<Data>listModel=[];
+  //List<String>titles=['Constructions','Insurances','Legal','Buy & Sell','Accounting Services'];
+  late Future<List<Users>> users;
   @override
   void initState() {
-    UsersCubit.get(context).getCategory();
+    users = UsersCubit.get(context). getUsers();
+
 
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
-    var cubit =UsersCubit.get(context);
     return BlocConsumer<UsersCubit,UsersStates> (listener: (context, state) {
-      // TODO: implement listener
-    },
+         },
         builder: (context, state) {
           return
-            ConditionalBuilder(condition:  UsersCubit.get(context).usersModel !=null,
-                builder: (context) =>
-                    Column(children: [
+            FutureBuilder<List<Users>>(
+                future: users,
+                builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return  Column(children: [
                       SizedBoxForHeight(h:0.01),
                       const RowForHeadersAtCategory(),
                       Container(
@@ -57,10 +57,10 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                               border: Border.all(color: AppColors.backGroundColor,width: 0.1)
                           ),
                           child: Row(children: [
-                            // ImageIcon(AssetImage(icons[index]),size: 50,color: AppColors.primaryColor,),
-                            //   TextForCategory(title: '${cubit.listModel[index].id}', f: 17),
+                               TextForCategory(title: '${snapshot.data![index].id.toString()}', f: 17),
 
-                            TextForCategory(title: cubit.listModel[index].username , f: 17),
+                            TextForCategory(title: snapshot.data![index].username.toString() , f: 17),
+
 
                             const Spacer(),
                             const Icon(Icons.arrow_forward_outlined,color: Color(0xffb2acac
@@ -69,10 +69,14 @@ class _CategoryWidgetState extends State<CategoryWidget> {
                           ],),
                         ),
                             separatorBuilder: (context, index) => SizedBoxForHeight(h: 0.02,),
-                            itemCount: cubit.listModel.length),
+                            itemCount: snapshot.data!.length,),
                       )
-                    ],)
-                , fallback: (context)=>const Center(child: CircularProgressIndicator(),));
+                    ],);
+        }else if (snapshot.hasError) {
+      return Text(snapshot.error.toString());
+    } else {
+    return CircularProgressIndicator();
+    }            });
         }
     );
   }

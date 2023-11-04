@@ -31,11 +31,11 @@ dependencies:
   flutter:
     sdk: flutter
   google_fonts: ^3.0.1
-  dio: ^5.3.3
   flutter_bloc: ^8.1.1
   bloc: ^8.1.0
-  conditional_builder_null_safety: ^0.0.6
   equatable: ^2.0.5
+  http: ^0.13.4
+
 
 
 

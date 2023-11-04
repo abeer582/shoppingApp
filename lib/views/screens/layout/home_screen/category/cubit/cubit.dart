@@ -1,37 +1,36 @@
-import 'package:dio/dio.dart';
+import 'dart:convert';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_app/views/screens/layout/home_screen/category/cubit/states.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../../../../model/users_model.dart';
-import '../../../../../../remote/network.dart';
 
 
 class UsersCubit extends Cubit<UsersStates> {
   UsersCubit() :super(InitialState());
 
   static UsersCubit get(context) => BlocProvider.of(context);
-  Data usersModel = Data.fromJson({});
-  List<Data>listModel=[];
 
-
-
-  void getCategory() async {
-    //   try {
-    Response response = await DioHelper.getData(
-        url: "https://jsonplaceholder.typicode.com/users");
-// Check if the request was successful
+  Future<List<Users>> getUsers() async {
+    final response = await http.get(
+      Uri.parse('https://jsonplaceholder.typicode.com/users'),
+    );
     if (response.statusCode == 200) {
-      // Retrieve the list from the response
-      List<dynamic> dataList = response.data;
-      for (var item in dataList) {
-
-        // Perform operations on each item in the list
-        print(item.toString());
+      var jsonResponse = json.decode(response.body);
+      List<Users> users = [];
+      for (var u in jsonResponse) {
+        Users user =
+        Users( username: u['username'],
+            id: u['id']
+        );
+        users.add(user);
       }
+      return users;
     } else {
-      // Handle error response
-      print('Request failed with status code ${response.statusCode}');
-
+      throw Exception('Failed to load post');
     }
   }
+
 }
+
